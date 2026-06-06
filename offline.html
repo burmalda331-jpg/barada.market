@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Нет сети — барада.маркет</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0b0f;color:#f0f2ff;font-family:'Segoe UI',system-ui,sans-serif;
+  display:flex;align-items:center;justify-content:center;height:100vh;text-align:center;padding:24px}
+.icon{font-size:72px;margin-bottom:20px}
+h1{font-size:24px;font-weight:800;margin-bottom:10px;
+  background:linear-gradient(90deg,#5b8af0,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+p{font-size:14px;color:#8b91b0;margin-bottom:28px;line-height:1.6}
+button{background:linear-gradient(135deg,#5b8af0,#a855f7);border:none;color:#fff;
+  font-size:15px;font-weight:700;padding:14px 32px;border-radius:14px;cursor:pointer}
+</style>
+</head>
+<body>
+<div>
+  <div class="icon">🛒</div>
+  <h1>Нет подключения</h1>
+  <p>Проверь интернет и попробуй снова.<br>барада.маркет требует сеть для загрузки каталога.</p>
+  <button onclick="location.reload()">Попробовать снова</button>
+</div>
+</body>
+</html>
