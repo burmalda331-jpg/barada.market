@@ -1,18 +1,24 @@
 {
-  "id": "/",
+  "id": "com.barada.market.8f4c2d71-a9e3-4b8e-92d6-5f1c7a4e9b32",
   "name": "барада.маркет",
   "short_name": "маркет",
   "description": "Магазин приложений и игр барада — скачивай, играй, публикуй",
 
-  "start_url": "/",
+  "start_url": "/index.html",
   "scope": "/",
-  "display": "standalone",
-  "orientation": "portrait",
 
-  "lang": "ru",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone"
+  ],
+
+  "orientation": "portrait",
 
   "background_color": "#0a0b0f",
   "theme_color": "#a855f7",
+
+  "lang": "ru",
 
   "categories": [
     "shopping",
@@ -71,30 +77,15 @@
     }
   ],
 
-  "screenshots": [
-    {
-      "src": "home.png",
-      "sizes": "1084x2412",
-      "type": "image/png",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "catalog.png",
-      "sizes": "1084x2412",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ],
-
   "shortcuts": [
     {
       "name": "Игры",
       "short_name": "Игры",
       "description": "Каталог игр",
-      "url": "/games",
+      "url": "/index.html",
       "icons": [
         {
-          "src": "/icons/icon-96.png",
+          "src": "icon-96.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -104,10 +95,10 @@
       "name": "Мои приложения",
       "short_name": "Мои",
       "description": "Установленные приложения",
-      "url": "/apps",
+      "url": "/index.html",
       "icons": [
         {
-          "src": "/icons/icon-96.png",
+          "src": "icon-96.png",
           "sizes": "96x96",
           "type": "image/png"
         }
