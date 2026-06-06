@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+<title>барада.маркет</title>
+<!-- PWA -->
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#a855f7"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="барада.маркет"/>
+<link rel="apple-touch-icon" href="icons/icon-192.png"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  --bg0:#0a0b0f;--bg1:#12141a;--bg2:#1a1d26;--bg3:#22263a;
+  --accent:#5b8af0;--accent2:#a855f7;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;
+  --text:#f0f2ff;--text2:#8b91b0;--text3:#4a5070;
+  --border:rgba(255,255,255,.07);--radius:16px;
+  --font:'Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:var(--bg0);color:var(--text);font-family:var(--font)}
+
+/* ── AUTH ── */
+#auth{display:flex;align-items:flex-end;justify-content:center;position:fixed;inset:0;
+  background:radial-gradient(ellipse at 40% 10%,#1a1040,var(--bg0) 60%)}
+.auth-card{width:100%;max-width:480px;background:var(--bg1);border:1px solid var(--border);
+  border-radius:24px 24px 0 0;padding:20px 24px 40px;box-shadow:0 -8px 48px rgba(0,0,0,.6);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;max-height:92vh}
+.auth-card::-webkit-scrollbar{display:none}
+.logo{text-align:center;margin-bottom:18px}
+.logo-icon{font-size:52px;display:block;margin-bottom:6px}
+.logo-title{font-size:24px;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-sub{font-size:12px;color:var(--text2);margin-top:3px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.field input{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:12px;
+  padding:12px 14px;color:var(--text);font-size:15px;outline:none;transition:.2s;font-family:var(--font)}
+.field input:focus{border-color:var(--accent)}
+.btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;
+  font-size:15px;font-weight:700;padding:14px;border-radius:14px;cursor:pointer;transition:.15s;font-family:var(--font)}
+.btn:hover{opacity:.9}.btn:active{transform:scale(.97)}.btn:disabled{opacity:.5;cursor:not-allowed}
+.auth-switch{text-align:center;margin-top:14px;font-size:13px;color:var(--text2)}
+.auth-switch span{color:var(--accent);cursor:pointer;font-weight:600}
+.err{color:var(--red);font-size:13px;text-align:center;margin-bottom:10px;min-height:18px}
+
+/* ── APP ── */
+#app{display:none;flex-direction:column;position:fixed;top:0;left:0;right:0;height:100vh;overflow:hidden}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--bg1);border-bottom:1px solid var(--border);padding:12px 16px;
+  display:flex;align-items:center;gap:10px;flex-shrink:0}
+.topbar-logo{font-size:22px;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;flex:1}
+.topbar-av{width:36px;height:36px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;
+  justify-content:center;font-size:20px;cursor:pointer;overflow:hidden;flex-shrink:0}
+.topbar-av img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.topbar-dev{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;
+  font-size:12px;font-weight:700;padding:7px 12px;border-radius:10px;cursor:pointer;font-family:var(--font)}
+
+/* ── NAV TABS ── */
+.nav-tabs{display:flex;background:var(--bg1);border-bottom:1px solid var(--border);flex-shrink:0}
+.nav-tab{flex:1;padding:11px 4px;text-align:center;font-size:12px;font-weight:600;color:var(--text2);
+  cursor:pointer;border-bottom:2px solid transparent;transition:.15s}
+.nav-tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* ── CONTENT ── */
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px}
+.content::-webkit-scrollbar{display:none}
+
+/* ── SEARCH ── */
+.search-bar{background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  padding:10px 14px;width:100%;color:var(--text);font-size:14px;outline:none;font-family:var(--font);margin-bottom:14px}
+.search-bar:focus{border-color:var(--accent)}
+
+/* ── CATEGORIES ── */
+.cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px}
+.cats::-webkit-scrollbar{display:none}
+.cat{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;
+  font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;transition:.15s;flex-shrink:0}
+.cat.on{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── APPS GRID ── */
+.apps-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.app-card{background:var(--bg1);border:1px solid var(--border);border-radius:18px;overflow:hidden;cursor:pointer;transition:.15s;position:relative}
+.app-card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.app-icon{width:100%;aspect-ratio:1;background:var(--bg2);display:flex;align-items:center;justify-content:center;
+  font-size:52px;position:relative}
+.app-icon img{width:100%;height:100%;object-fit:cover}
+.app-body{padding:10px 11px 12px}
+.app-name{font-size:14px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-dev{font-size:11px;color:var(--text2);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-row{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.app-rating{font-size:11px;color:var(--yellow)}
+.app-price{font-size:12px;font-weight:700}
+.app-price.free{color:var(--green)}
+.app-get{background:var(--accent);border:none;color:#fff;font-size:11px;font-weight:700;
+  padding:5px 12px;border-radius:8px;cursor:pointer;font-family:var(--font);transition:.15s}
+.app-get:hover{opacity:.85}
+.app-badge{position:absolute;top:8px;right:8px;background:var(--red);color:#fff;
+  font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px}
+.app-badge.new{background:var(--green)}
+.app-badge.top{background:var(--yellow);color:#000}
+
+/* ── FEATURED BANNER ── */
+.featured{background:linear-gradient(135deg,#1a2040,#2a1040);border:1px solid var(--border);
+  border-radius:18px;padding:18px;margin-bottom:16px;position:relative;overflow:hidden}
+.featured::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;
+  background:radial-gradient(circle,rgba(91,138,240,.3),transparent 70%);pointer-events:none}
+.featured-tag{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.featured-name{font-size:20px;font-weight:800;margin-bottom:4px}
+.featured-desc{font-size:12px;color:var(--text2);margin-bottom:14px}
+.featured-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;
+  font-size:13px;font-weight:700;padding:10px 20px;border-radius:12px;cursor:pointer;font-family:var(--font)}
+
+/* ── DEVELOPER PANEL ── */
+.dev-panel{background:var(--bg1);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:14px}
+.dev-title{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.dev-app-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.dev-app-icon{width:48px;height:48px;border-radius:12px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;overflow:hidden}
+.dev-app-icon img{width:100%;height:100%;object-fit:cover;border-radius:12px}
+.dev-app-info{flex:1;min-width:0}
+.dev-app-name{font-size:14px;font-weight:700;margin-bottom:2px}
+.dev-app-stats{font-size:11px;color:var(--text2)}
+.dev-app-acts{display:flex;gap:6px}
+.btn-sm{padding:6px 12px;border-radius:8px;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font);transition:.15s}
+.btn-edit{background:var(--bg3);color:var(--text)}
+.btn-del{background:rgba(239,68,68,.15);color:var(--red)}
+.badge-status{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;margin-left:6px}
+.badge-pub{background:rgba(34,197,94,.15);color:var(--green)}
+.badge-rev{background:rgba(245,158,11,.15);color:var(--yellow)}
+
+/* ── MODAL ── */
+#modal-root{}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:flex-end;
+  justify-content:center;z-index:100;animation:fadeIn .2s}
+.modal{background:var(--bg1);border:1px solid var(--border);border-radius:24px 24px 0 0;
+  padding:20px 20px 36px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;animation:slideUp .25s cubic-bezier(.16,1,.3,1)}
+.modal::-webkit-scrollbar{display:none}
+.modal h2{font-size:18px;font-weight:700;margin-bottom:14px}
+.m-foot{display:flex;gap:8px;margin-top:16px}
+.btn-cancel{flex:1;background:var(--bg2);border:1px solid var(--border);color:var(--text);
+  font-size:14px;font-weight:600;padding:12px;border-radius:12px;cursor:pointer;font-family:var(--font)}
+.field textarea{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:12px;
+  padding:12px 14px;color:var(--text);font-size:14px;outline:none;resize:none;font-family:var(--font);line-height:1.5}
+.field textarea:focus{border-color:var(--accent)}
+.upload-box{border:2px dashed var(--border);border-radius:14px;padding:20px;text-align:center;
+  color:var(--text2);font-size:13px;cursor:pointer;transition:.15s}
+.upload-box:hover{border-color:var(--accent);color:var(--accent)}
+.upload-box img{max-width:100%;max-height:120px;border-radius:10px;margin-top:8px}
+.price-row{display:flex;gap:8px;align-items:center}
+.price-row .free-btn{padding:10px 16px;border-radius:12px;border:1px solid var(--border);background:var(--bg2);
+  color:var(--text);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);white-space:nowrap}
+.price-row .free-btn.on{background:rgba(34,197,94,.15);border-color:var(--green);color:var(--green)}
+.info-box{background:rgba(91,138,240,.08);border:1px solid rgba(91,138,240,.2);border-radius:12px;
+  padding:12px;font-size:12px;color:var(--accent);line-height:1.5;margin-bottom:10px}
+
+/* ── APP DETAIL ── */
+.app-detail-head{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+.app-detail-icon{width:80px;height:80px;border-radius:18px;background:var(--bg2);display:flex;
+  align-items:center;justify-content:center;font-size:48px;flex-shrink:0;overflow:hidden}
+.app-detail-icon img{width:100%;height:100%;object-fit:cover;border-radius:18px}
+.app-detail-info{flex:1}
+.app-detail-name{font-size:20px;font-weight:800;margin-bottom:3px}
+.app-detail-dev{font-size:13px;color:var(--text2);margin-bottom:8px}
+.app-detail-rating{font-size:13px;color:var(--yellow);margin-bottom:10px}
+.app-detail-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:14px}
+.screenshots{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px}
+.screenshots::-webkit-scrollbar{display:none}
+.screenshot{width:130px;height:220px;background:var(--bg2);border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:12px;overflow:hidden}
+.screenshot img{width:100%;height:100%;object-fit:cover;border-radius:12px}
+
+/* ── EMPTY ── */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text2)}
+.empty-state .big{font-size:52px;margin-bottom:12px}
+.empty-state h3{font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px}
+.empty-state p{font-size:13px}
+
+/* ── SECTION HEADER ── */
+.sec-head{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.sec-see-all{font-size:12px;color:var(--accent);cursor:pointer}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="auth">
+  <div class="auth-card">
+    <div class="logo">
+      <span class="logo-icon">🛒</span>
+      <div class="logo-title">барада.маркет</div>
+      <div class="logo-sub">Войди через аккаунт барада.чат</div>
+    </div>
+    <div class="err" id="err"></div>
+    <div id="auth-form">
+      <div class="field"><label>Логин</label><input id="a-login" placeholder="твой_логин" autocomplete="username"/></div>
+      <div class="field"><label>Пароль</label><input id="a-pass" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+      <button class="btn" onclick="doLogin()" id="login-btn">Войти</button>
+      <div class="auth-switch">Нет аккаунта? <span onclick="window.open('https://burmalda331-jpg.github.io/barada-chat/','_blank')">Зарегистрируйся в барада.чат</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-logo">🛒 барада.маркет</div>
+    <button class="topbar-dev" id="dev-btn" onclick="openDevPanel()" style="display:none">⚙️ Разработчик</button>
+    <div class="topbar-av" id="me-av" onclick="logout()"></div>
+  </div>
+  <div class="nav-tabs">
+    <div class="nav-tab on" onclick="switchTab('home',this)">🏠 Главная</div>
+    <div class="nav-tab" onclick="switchTab('games',this)">🎮 Игры</div>
+    <div class="nav-tab" onclick="switchTab('apps',this)">📱 Приложения</div>
+    <div class="nav-tab" onclick="switchTab('myapps',this)">📦 Мои</div>
+  </div>
+  <div class="content" id="content"></div>
+</div>
+
+<div id="modal-root"></div>
+
+<script>
+const SUPABASE_URL      = 'https://bhmfdzmtviuatsxwjxap.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJobWZkem10dml1YXRzeHdqeGFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1OTAyMjMsImV4cCI6MjA5NjE2NjIyM30.dDTcKX1ryRP0ZVgTaNDYyPqUg71KjXtgjh9wfPH3YNc';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Твой user_id — получим после логина
+const ADMIN_USERNAME = 'burmalda331'; // ты — всегда разработчик бесплатно
+
+let me = null;
+let currentTab = 'home';
+let allApps = [];
+let filterCat = 'all';
+
+// ── AUTH ──────────────────────────────────────────────
+function showErr(msg){ document.getElementById('err').textContent = msg||''; }
+
+async function doLogin(){
+  const login = document.getElementById('a-login').value.trim();
+  const pass  = document.getElementById('a-pass').value;
+  if(!login||!pass){showErr('Заполни все поля');return;}
+  const btn = document.getElementById('login-btn');
+  btn.disabled=true; btn.textContent='Входим...'; showErr('');
+  try{
+    // Получаем email по username из profiles
+    const {data:prof} = await sb.from('profiles').select('id,name,avatar,avatar_url,username')
+      .eq('username',login).maybeSingle();
+    if(!prof) throw new Error('Пользователь не найден');
+    // Логинимся через email = username@barada.chat (как обычно в barада.чат)
+    // Попробуем username+@barada.app или просто по id через magic
+    // На самом деле в barada.chat email = username@barada.local или произвольный
+    // Пробуем: username@barada.chat
+    let {data,error} = await sb.auth.signInWithPassword({
+      email: login+'@barada.chat', password: pass
+    });
+    if(error){
+      // Пробуем ещё вариант: email может быть другим — попросим ввести email
+      throw new Error('Неверный логин или пароль');
+    }
+    const {data:profile} = await sb.from('profiles').select('*').eq('id',data.user.id).single();
+    me = profile;
+    startApp();
+  }catch(e){showErr(e.message);}
+  finally{btn.disabled=false;btn.textContent='Войти';}
+}
+
+async function startApp(){
+  document.getElementById('auth').style.display='none';
+  document.getElementById('app').style.display='flex';
+  // Показываем аватар
+  const av = document.getElementById('me-av');
+  av.innerHTML = me.avatar_url ? `<img src="${me.avatar_url}"/>` : me.avatar||'👤';
+  av.title = 'Выйти (@'+me.username+')';
+  // Кнопка разработчика — всегда для тебя
+  if(me.username === ADMIN_USERNAME || await isDevAccount()){
+    document.getElementById('dev-btn').style.display='block';
+  }
+  await loadApps();
+  renderTab('home');
+}
+
+async function isDevAccount(){
+  // Проверяем developer_accounts таблицу
+  const {data} = await sb.from('developer_accounts').select('id').eq('user_id',me.id).maybeSingle();
+  return !!data;
+}
+
+async function logout(){
+  if(!confirm('Выйти из аккаунта?')) return;
+  await sb.auth.signOut();
+  me=null; allApps=[];
+  document.getElementById('app').style.display='none';
+  document.getElementById('auth').style.display='flex';
+}
+
+// ── APPS ──────────────────────────────────────────────
+async function loadApps(){
+  const {data} = await sb.from('market_apps')
+    .select('*,profiles!developer_id(name,username,avatar,avatar_url)')
+    .eq('status','published')
+    .order('created_at',{ascending:false});
+  allApps = data||[];
+}
+
+// ── TABS ──────────────────────────────────────────────
+function switchTab(tab, el){
+  currentTab=tab; filterCat='all';
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  renderTab(tab);
+}
+function renderTab(tab){
+  const c = document.getElementById('content');
+  if(tab==='home') renderHome();
+  else if(tab==='games') renderCatalog('game');
+  else if(tab==='apps') renderCatalog('app');
+  else if(tab==='myapps') renderMyApps();
+}
+
+// ── HOME ──────────────────────────────────────────────
+function renderHome(){
+  const c = document.getElementById('content');
+  const featured = allApps[0];
+  const topApps = allApps.slice(0,6);
+  const newApps = [...allApps].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,4);
+
+  c.innerHTML = `
+    ${featured ? `
+    <div class="featured" onclick="openAppDetail('${featured.id}')">
+      <div class="featured-tag">🔥 В тренде</div>
+      <div class="featured-name">${esc(featured.icon_emoji||'📦')} ${esc(featured.name)}</div>
+      <div class="featured-desc">${esc((featured.description||'').slice(0,80))}...</div>
+      <button class="featured-btn">Подробнее</button>
+    </div>` : ''}
+
+    <div class="sec-head">
+      <span>⭐ Популярное</span>
+    </div>
+    <div class="apps-grid">
+      ${topApps.map(a=>appCardHtml(a)).join('') || emptyHtml('Пока нет приложений','Станьте первым разработчиком!')}
+    </div>
+
+    ${newApps.length ? `
+    <div class="sec-head" style="margin-top:20px"><span>🆕 Новинки</span></div>
+    <div class="apps-grid">${newApps.map(a=>appCardHtml(a)).join('')}</div>
+    `:''}
+  `;
+}
+
+// ── CATALOG ───────────────────────────────────────────
+const CATS_GAME = ['all','action','rpg','puzzle','racing','strategy','arcade'];
+const CATS_APP  = ['all','tools','social','music','education','finance','other'];
+const CATS_LABEL = {all:'Все',action:'Экшн',rpg:'РПГ',puzzle:'Головоломки',racing:'Гонки',
+  strategy:'Стратегии',arcade:'Аркады',tools:'Инструменты',social:'Социальные',
+  music:'Музыка',education:'Учёба',finance:'Финансы',other:'Разное'};
+
+function renderCatalog(type){
+  const c = document.getElementById('content');
+  const cats = type==='game' ? CATS_GAME : CATS_APP;
+  const filtered = allApps.filter(a=>a.type===type && (filterCat==='all'||a.category===filterCat));
+  c.innerHTML = `
+    <input class="search-bar" id="catalog-search" placeholder="🔍 Поиск..." oninput="filterCatalog('${type}')"/>
+    <div class="cats" id="cats-row">
+      ${cats.map(cat=>`<div class="cat${filterCat===cat?' on':''}" onclick="setCat('${cat}','${type}')">${CATS_LABEL[cat]||cat}</div>`).join('')}
+    </div>
+    <div class="apps-grid" id="catalog-grid">
+      ${filtered.map(a=>appCardHtml(a)).join('') || emptyHtml('Ничего не найдено','Попробуй другую категорию')}
+    </div>
+  `;
+}
+function setCat(cat, type){ filterCat=cat; renderCatalog(type); }
+function filterCatalog(type){
+  const q = (document.getElementById('catalog-search')?.value||'').toLowerCase();
+  const filtered = allApps.filter(a=>a.type===type
+    && (filterCat==='all'||a.category===filterCat)
+    && (a.name.toLowerCase().includes(q)||( a.description||'').toLowerCase().includes(q)));
+  document.getElementById('catalog-grid').innerHTML =
+    filtered.map(a=>appCardHtml(a)).join('') || emptyHtml('Ничего не найдено','');
+}
+
+// ── MY APPS ───────────────────────────────────────────
+async function renderMyApps(){
+  const c = document.getElementById('content');
+  c.innerHTML = `<div style="text-align:center;padding:30px;color:var(--text2)">Загрузка...</div>`;
+  const {data:installed} = await sb.from('app_installs').select('app_id,market_apps(*)').eq('user_id',me.id);
+  const myInstalled = (installed||[]).map(r=>r.market_apps).filter(Boolean);
+  const {data:devApps} = await sb.from('market_apps').select('*').eq('developer_id',me.id);
+  c.innerHTML = `
+    ${devApps?.length ? `
+    <div class="sec-head"><span>👨‍💻 Мои публикации</span></div>
+    <div style="margin-bottom:16px">
+      ${(devApps||[]).map(a=>`
+      <div class="dev-app-card">
+        <div class="dev-app-icon">${a.icon_url?`<img src="${a.icon_url}"/>`:esc(a.icon_emoji||'📦')}</div>
+        <div class="dev-app-info">
+          <div class="dev-app-name">${esc(a.name)}<span class="badge-status ${a.status==='published'?'badge-pub':'badge-rev'}">${a.status==='published'?'Опубликовано':'На проверке'}</span></div>
+          <div class="dev-app-stats">📥 ${a.install_count||0} установок · ${a.price>0?a.price+' ₽':'Бесплатно'}</div>
+        </div>
+        <div class="dev-app-acts">
+          <button class="btn-sm btn-edit" onclick="openEditApp('${a.id}')">✏️</button>
+          <button class="btn-sm btn-del" onclick="deleteApp('${a.id}')">🗑️</button>
+        </div>
+      </div>`).join('')}
+    </div>` : ''}
+
+    <div class="sec-head"><span>📥 Установленные (${myInstalled.length})</span></div>
+    ${myInstalled.length ? `<div class="apps-grid">${myInstalled.map(a=>appCardHtml(a)).join('')}</div>`
+      : emptyHtml('Нет установленных','Зайди в каталог и найди что-нибудь!')}
+  `;
+}
+
+// ── APP CARD HTML ─────────────────────────────────────
+function appCardHtml(a){
+  const rating = a.rating ? '⭐'+a.rating.toFixed(1) : '⭐Новое';
+  const price = a.price>0 ? a.price+' ₽' : 'Бесплатно';
+  const icon = a.icon_url ? `<img src="${a.icon_url}"/>` : esc(a.icon_emoji||'📦');
+  return `<div class="app-card" onclick="openAppDetail('${a.id}')">
+    <div class="app-icon">${icon}</div>
+    <div class="app-body">
+      <div class="app-name">${esc(a.name)}</div>
+      <div class="app-dev">${esc(a.profiles?.name||'Разработчик')}</div>
+      <div class="app-row">
+        <span class="app-rating">${rating}</span>
+        <span class="app-price ${a.price>0?'':'free'}">${price}</span>
+      </div>
+    </div>
+  </div>`;
+}
+function emptyHtml(title,sub){
+  return `<div class="empty-state" style="grid-column:1/-1"><div class="big">🔍</div><h3>${title}</h3><p>${sub}</p></div>`;
+}
+
+// ── APP DETAIL ────────────────────────────────────────
+async function openAppDetail(id){
+  const a = allApps.find(x=>x.id===id);
+  if(!a) return;
+  const icon = a.icon_url ? `<img src="${a.icon_url}"/>` : esc(a.icon_emoji||'📦');
+  const price = a.price>0 ? a.price+' ₽' : 'Бесплатно';
+  const rating = a.rating ? '⭐ '+a.rating.toFixed(1) : '⭐ Новое';
+  showModal(`<div class="modal" onclick="event.stopPropagation()">
+    <div class="app-detail-head">
+      <div class="app-detail-icon">${icon}</div>
+      <div class="app-detail-info">
+        <div class="app-detail-name">${esc(a.name)}</div>
+        <div class="app-detail-dev">от ${esc(a.profiles?.name||'?')} · @${esc(a.profiles?.username||'?')}</div>
+        <div class="app-detail-rating">${rating} · ${a.install_count||0} установок</div>
+      </div>
+    </div>
+    <div class="app-detail-desc">${esc(a.description||'Нет описания')}</div>
+    ${a.screenshots?.length ? `
+    <div class="sec-head"><span>Скриншоты</span></div>
+    <div class="screenshots">
+      ${a.screenshots.map(s=>`<div class="screenshot"><img src="${s}"/></div>`).join('')}
+    </div>` : ''}
+    <div style="display:flex;gap:8px">
+      <div style="flex:1">
+        <div style="font-size:12px;color:var(--text2)">Тип</div>
+        <div style="font-size:13px;font-weight:600">${a.type==='game'?'🎮 Игра':'📱 Приложение'}</div>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:12px;color:var(--text2)">Категория</div>
+        <div style="font-size:13px;font-weight:600">${CATS_LABEL[a.category]||a.category||'—'}</div>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:12px;color:var(--text2)">Цена</div>
+        <div style="font-size:13px;font-weight:600;color:${a.price>0?'var(--text)':'var(--green)'}">${price}</div>
+      </div>
+    </div>
+    <div class="m-foot">
+      <button class="btn-cancel" onclick="closeModal()">Назад</button>
+      <button class="btn" style="flex:2" onclick="installApp('${a.id}','${a.file_url||''}','${a.price||0}')">
+        ${a.price>0?'Купить · '+a.price+' ₽':'Установить'}
+      </button>
+    </div>
+  </div>`);
+}
+
+async function installApp(id, fileUrl, price){
+  if(price>0){ alert('Покупка пока недоступна. Скоро будет!'); return; }
+  // Записываем установку
+  await sb.from('app_installs').upsert({user_id:me.id,app_id:id},{onConflict:'user_id,app_id'});
+  // Увеличиваем счётчик
+  await sb.from('market_apps').update({install_count:( allApps.find(a=>a.id===id)?.install_count||0)+1}).eq('id',id);
+  closeModal();
+  if(fileUrl){ window.open(fileUrl,'_blank'); }
+  else { alert('✅ Установлено! Файл скоро появится.'); }
+}
+
+// ── DEVELOPER PANEL ───────────────────────────────────
+function openDevPanel(){
+  showModal(`<div class="modal" onclick="event.stopPropagation()">
+    <h2>👨‍💻 Панель разработчика</h2>
+    <div class="info-box">Ты — @${esc(me.username)} · Разработчик барада.маркет<br>Публикуй игры и приложения бесплатно.</div>
+    <button class="btn" onclick="openPublishApp()">➕ Опубликовать приложение/игру</button>
+    <div class="m-foot"><button class="btn-cancel" onclick="closeModal()">Закрыть</button></div>
+  </div>`);
+}
+
+function openPublishApp(editId=null){
+  const existing = editId ? allApps.find(a=>a.id===editId) : null;
+  showModal(`<div class="modal" onclick="event.stopPropagation()">
+    <h2>${editId?'✏️ Редактировать':'➕ Новое приложение'}</h2>
+    <div class="field"><label>Название</label>
+      <input id="pub-name" placeholder="Название приложения" value="${esc(existing?.name||'')}"/>
+    </div>
+    <div class="field"><label>Тип</label>
+      <select id="pub-type" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:11px 14px;color:var(--text);font-size:14px;outline:none">
+        <option value="game" ${existing?.type==='game'?'selected':''}>🎮 Игра</option>
+        <option value="app" ${existing?.type==='app'?'selected':''}>📱 Приложение</option>
+      </select>
+    </div>
+    <div class="field"><label>Категория</label>
+      <select id="pub-cat" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:11px 14px;color:var(--text);font-size:14px;outline:none">
+        ${[...CATS_GAME,...CATS_APP].filter((v,i,a)=>v!=='all'&&a.indexOf(v)===i).map(c=>`<option value="${c}" ${existing?.category===c?'selected':''}>${CATS_LABEL[c]||c}</option>`).join('')}
+      </select>
+    </div>
+    <div class="field"><label>Описание</label>
+      <textarea id="pub-desc" rows="3" placeholder="Расскажи об игре/приложении...">${esc(existing?.description||'')}</textarea>
+    </div>
+    <div class="field"><label>Иконка-эмодзи</label>
+      <input id="pub-icon" placeholder="🎮" maxlength="2" value="${esc(existing?.icon_emoji||'')}"/>
+    </div>
+    <div class="field"><label>Ссылка на файл/страницу</label>
+      <input id="pub-url" placeholder="https://..." value="${esc(existing?.file_url||'')}"/>
+    </div>
+    <div class="field"><label>Цена (₽, 0 = бесплатно)</label>
+      <input id="pub-price" type="number" min="0" placeholder="0" value="${existing?.price||0}"/>
+    </div>
+    <div class="info-box">📌 После публикации приложение сразу появится в маркете.</div>
+    <div class="m-foot">
+      <button class="btn-cancel" onclick="closeModal()">Отмена</button>
+      <button class="btn" style="flex:2" onclick="submitApp('${editId||''}')">
+        ${editId?'Сохранить':'Опубликовать'}
+      </button>
+    </div>
+  </div>`);
+}
+
+async function submitApp(editId){
+  const name = document.getElementById('pub-name')?.value.trim();
+  const type = document.getElementById('pub-type')?.value;
+  const cat  = document.getElementById('pub-cat')?.value;
+  const desc = document.getElementById('pub-desc')?.value.trim();
+  const icon = document.getElementById('pub-icon')?.value.trim()||'📦';
+  const url  = document.getElementById('pub-url')?.value.trim();
+  const price= parseFloat(document.getElementById('pub-price')?.value||'0')||0;
+  if(!name){alert('Введи название');return;}
+  const payload={name,type,category:cat,description:desc,icon_emoji:icon,file_url:url,price,
+    developer_id:me.id,status:'published'};
+  let error;
+  if(editId){({error}=await sb.from('market_apps').update(payload).eq('id',editId));}
+  else{({error}=await sb.from('market_apps').insert(payload));}
+  if(error){alert('Ошибка: '+error.message);return;}
+  await loadApps();
+  closeModal();
+  alert('✅ Опубликовано!');
+  renderTab(currentTab);
+}
+
+async function openEditApp(id){ openPublishApp(id); }
+
+async function deleteApp(id){
+  if(!confirm('Удалить приложение?')) return;
+  await sb.from('market_apps').delete().eq('id',id).eq('developer_id',me.id);
+  await loadApps();
+  renderMyApps();
+}
+
+// ── MODAL ─────────────────────────────────────────────
+function showModal(html){
+  const root=document.getElementById('modal-root');
+  root.innerHTML=`<div class="modal-overlay" onclick="closeModal()">${html}</div>`;
+}
+function closeModal(){ document.getElementById('modal-root').innerHTML=''; }
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ── VIEWPORT FIX ──────────────────────────────────────
+(function(){
+  function fix(){
+    const h=(window.visualViewport?window.visualViewport.height:window.innerHeight)+'px';
+    const app=document.getElementById('app');
+    const auth=document.getElementById('auth');
+    if(app){app.style.height=h;}
+    if(auth){auth.style.height=h;}
+  }
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize',fix);
+    window.visualViewport.addEventListener('scroll',fix);
+  }
+  window.addEventListener('resize',fix);
+  fix(); document.addEventListener('DOMContentLoaded',fix);
+})();
+
+// ── SERVICE WORKER ────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
+// ── INIT ──────────────────────────────────────────────
+(async()=>{
+  const {data:{session}}=await sb.auth.getSession();
+  if(session){
+    const {data:profile}=await sb.from('profiles').select('*').eq('id',session.user.id).single();
+    if(profile){me=profile;startApp();}
+  }
+})();
+</script>
+</body>
+</html>
