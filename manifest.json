@@ -4,8 +4,8 @@
   "short_name": "маркет",
   "description": "Магазин приложений и игр барада — скачивай, играй, публикуй",
 
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/barada.market/",
+  "scope": "/barada.market/",
 
   "display": "standalone",
   "display_override": [
