@@ -283,7 +283,7 @@ async function doLogin(){
   try{
     const {data:prof}=await sb.from('profiles').select('id').eq('username',login).maybeSingle();
     if(!prof)throw new Error('Пользователь не найден');
-    const {data,error}=await sb.auth.signInWithPassword({email:login+'@barada.chat',password:pass});
+    const {data,error}=await sb.auth.signInWithPassword({email:login+'@gmail.com',password:pass});
     if(error)throw new Error('Неверный логин или пароль');
     const {data:profile}=await sb.from('profiles').select('*').eq('id',data.user.id).single();
     me=profile;
