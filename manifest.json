@@ -1,110 +1,32 @@
 {
-  "id": "com.barada.market.8f4c2d71-a9e3-4b8e-92d6-5f1c7a4e9b32",
+  "id": "barada-market-app",
   "name": "барада.маркет",
-  "short_name": "маркет",
-  "description": "Магазин приложений и игр барада — скачивай, играй, публикуй",
-
-  "start_url": "/barada.market/",
-  "scope": "/barada.market/",
-
+  "short_name": "бмаркет",
+  "description": "Магазин приложений и игр барада",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "display_override": [
-    "window-controls-overlay",
-    "standalone"
-  ],
-
   "orientation": "portrait",
-
   "background_color": "#0a0b0f",
   "theme_color": "#a855f7",
-
   "lang": "ru",
-
-  "categories": [
-    "shopping",
-    "entertainment",
-    "games"
-  ],
-
+  "categories": ["shopping", "entertainment"],
   "icons": [
-    {
-      "src": "icon-72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "icon-72.png",  "sizes": "72x72",  "type": "image/png", "purpose": "any" },
+    { "src": "icon-96.png",  "sizes": "96x96",  "type": "image/png", "purpose": "any" },
+    { "src": "icon-128.png", "sizes": "128x128","type": "image/png", "purpose": "any" },
+    { "src": "icon-144.png", "sizes": "144x144","type": "image/png", "purpose": "any" },
+    { "src": "icon-152.png", "sizes": "152x152","type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192","type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-384.png", "sizes": "384x384","type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512","type": "image/png", "purpose": "maskable" }
   ],
-
   "shortcuts": [
     {
       "name": "Игры",
-      "short_name": "Игры",
-      "description": "Каталог игр",
-      "url": "/index.html",
-      "icons": [
-        {
-          "src": "icon-96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Мои приложения",
-      "short_name": "Мои",
-      "description": "Установленные приложения",
-      "url": "/index.html",
-      "icons": [
-        {
-          "src": "icon-96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
+      "url": "./index.html",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96", "type": "image/png" }]
     }
   ],
-
   "prefer_related_applications": false
 }
