@@ -582,14 +582,21 @@ async function doDownload(a){
     if(pct>=100&&!done){
       done=true;
       clearInterval(interval);
-      // Записываем в фоне, не ждём
+      // Сразу убираем overlay — не ждём ничего
+      dlRoot.innerHTML='';
+      // Записываем в фоне
       sb.from('app_installs').upsert({user_id:me.id,app_id:a.id},{onConflict:'user_id,app_id'}).catch(()=>{});
       sb.from('market_apps').update({install_count:(a.install_count||0)+1}).eq('id',a.id).catch(()=>{});
       a.install_count=(a.install_count||0)+1;
-      // Сразу закрываем и открываем файл
-      dlRoot.innerHTML='';
+      // Открываем файл через ссылку (работает на мобильных браузерах)
       if(a.file_url){
-        window.open(a.file_url,'_blank');
+        const link=document.createElement('a');
+        link.href=a.file_url;
+        link.target='_blank';
+        link.rel='noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(()=>document.body.removeChild(link),500);
       } else {
         alert('✅ '+a.name+' установлено!');
       }
