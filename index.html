@@ -840,11 +840,22 @@ async function doDownload(a){
     const si = Math.floor((pct/100)*4);
     if(statusEl) statusEl.textContent = statuses[Math.min(si,4)];
     if(pct>=100){
-      clearInterval(interval);
-      await sb.from('app_installs').upsert({user_id:me.id,app_id:a.id},{onConflict:'user_id,app_id'});
-      await sb.rpc('increment_installs',{appid:a.id}).catch(()=>{
-        sb.from('market_apps').update({install_count:(a.install_count||0)+1}).eq('id',a.id);
-      });
+  clearInterval(interval);
+  // Не ждём базу — сразу открываем файл
+  try{
+    await sb.from('app_installs').upsert({user_id:me.id,app_id:a.id},{onConflict:'user_id,app_id'});
+  }catch(e){}
+  try{
+    await sb.from('market_apps').update({install_count:(a.install_count||0)+1}).eq('id',a.id);
+  }catch(e){}
+  a.install_count = (a.install_count||0)+1;
+  dlRoot.innerHTML='';
+  if(a.file_url){
+    window.open(a.file_url,'_blank');
+  } else {
+    alert('✅ '+a.name+' установлено!');
+  }
+    });
       a.install_count = (a.install_count||0)+1;
       setTimeout(()=>{
         dlRoot.innerHTML='';
