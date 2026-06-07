@@ -28,13 +28,9 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;background:var(--bg0);color:var(--text);font-family:var(--font)}
-
-/* ── NOISE OVERLAY ── */
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   opacity:.4}
-
-/* ── AUTH ── */
 #auth{display:flex;align-items:flex-end;justify-content:center;position:fixed;inset:0;z-index:10;
   background:radial-gradient(ellipse at 30% 0%,rgba(108,99,255,0.2),transparent 60%),
              radial-gradient(ellipse at 80% 100%,rgba(255,61,154,0.15),transparent 50%),
@@ -70,11 +66,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .auth-switch{text-align:center;margin-top:16px;font-size:13px;color:var(--text2)}
 .auth-switch span{color:var(--c1);cursor:pointer;font-weight:700}
 .err{color:var(--red);font-size:13px;text-align:center;margin-bottom:12px;min-height:18px;font-weight:600}
-
-/* ── APP ── */
 #app{display:none;flex-direction:column;position:fixed;top:0;left:0;right:0;height:100vh;overflow:hidden}
-
-/* ── TOPBAR ── */
 .topbar{background:rgba(7,7,15,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
   padding:10px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;position:relative;z-index:5}
@@ -94,8 +86,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .dev-pill{background:linear-gradient(135deg,var(--c1),var(--c2));border:none;color:#fff;
   font-size:11px;font-weight:800;padding:7px 12px;border-radius:10px;cursor:pointer;
   font-family:var(--font);letter-spacing:.3px;white-space:nowrap}
-
-/* ── NAV ── */
 .nav-tabs{display:flex;background:rgba(7,7,15,0.9);backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);flex-shrink:0}
 .nav-tab{flex:1;padding:10px 4px 9px;text-align:center;font-size:11px;font-weight:700;color:var(--text3);
@@ -103,28 +93,20 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .nav-tab.on{color:var(--c1)}
 .nav-tab.on::after{content:'';position:absolute;bottom:-1px;left:20%;right:20%;height:2px;
   background:linear-gradient(90deg,var(--c1),var(--c2));border-radius:2px}
-
-/* ── CONTENT ── */
 .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px;
   padding-bottom:calc(16px + var(--safe-bottom))}
 .content::-webkit-scrollbar{display:none}
-
-/* ── SEARCH ── */
 .search-wrap{position:relative;margin-bottom:14px}
 .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
 .search-bar{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:14px;
   padding:11px 14px 11px 42px;color:var(--text);font-size:14px;outline:none;
   font-family:var(--font);font-weight:500;transition:.2s}
 .search-bar:focus{border-color:var(--c1);background:var(--bg3);box-shadow:0 0 0 3px rgba(108,99,255,0.08)}
-
-/* ── CATEGORIES ── */
 .cats{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px}
 .cats::-webkit-scrollbar{display:none}
 .cat{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:7px 14px;
   font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;transition:.15s;flex-shrink:0;letter-spacing:.3px}
 .cat.on{background:linear-gradient(135deg,var(--c1),var(--c2));border-color:transparent;color:#fff;box-shadow:0 4px 16px rgba(108,99,255,0.3)}
-
-/* ── FEATURED BANNER ── */
 .featured{border-radius:22px;overflow:hidden;margin-bottom:20px;position:relative;cursor:pointer;
   background:linear-gradient(135deg,#0f0f2a,#1a0f2a);
   border:1px solid rgba(108,99,255,0.2);min-height:160px}
@@ -144,15 +126,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   font-size:12px;font-weight:800;padding:9px 20px;border-radius:10px;cursor:pointer;font-family:var(--font)}
 .featured-rating{font-size:13px;color:var(--c4)}
 .featured-size{font-size:11px;color:var(--text2);font-family:var(--mono)}
-
-/* ── SECTION HEADER ── */
 .sec-head{font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;letter-spacing:-.2px}
 .sec-see-all{font-size:11px;color:var(--c1);cursor:pointer;font-weight:700}
-
-/* ── APPS GRID ── */
 .apps-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-
-/* ── APP CARD ── */
 .app-card{background:var(--bg1);border:1px solid var(--border);border-radius:20px;
   overflow:hidden;cursor:pointer;transition:.2s;position:relative;
   box-shadow:0 2px 16px rgba(0,0,0,0.3)}
@@ -180,8 +156,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .app-badge.new{background:rgba(46,213,115,0.85);color:#fff}
 .app-badge.top{background:rgba(255,215,0,0.85);color:#000}
 .app-badge.paid{background:rgba(108,99,255,0.85);color:#fff}
-
-/* ── HORIZONTAL LIST ── */
 .h-list{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;margin-bottom:20px}
 .h-list::-webkit-scrollbar{display:none}
 .h-app-card{width:120px;flex-shrink:0;cursor:pointer;transition:.15s}
@@ -191,8 +165,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .h-app-icon img{width:100%;height:100%;object-fit:cover;border-radius:22px}
 .h-app-name{font-size:12px;font-weight:700;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.2px}
 .h-app-sub{font-size:10px;color:var(--text2);text-align:center;font-weight:600}
-
-/* ── DEV PANEL ── */
 .dev-panel{background:var(--bg1);border:1px solid var(--border2);border-radius:20px;padding:16px;margin-bottom:14px}
 .dev-title{font-size:14px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:6px;letter-spacing:-.2px}
 .dev-stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
@@ -213,8 +185,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .badge-pub{background:rgba(46,213,115,0.15);color:var(--green)}
 .badge-rev{background:rgba(255,215,0,0.15);color:var(--yellow)}
 .badge-rej{background:rgba(255,71,87,0.15);color:var(--red)}
-
-/* ── MODAL ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:flex;align-items:flex-end;
   justify-content:center;z-index:100;animation:fadeIn .2s;backdrop-filter:blur(4px)}
 .modal{background:linear-gradient(160deg,var(--bg2),var(--bg1));
@@ -233,8 +203,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   padding:12px 16px;color:var(--text);font-size:14px;outline:none;resize:none;
   font-family:var(--font);line-height:1.6;font-weight:500;transition:.2s}
 .field textarea:focus{border-color:var(--c1);background:var(--bg4)}
-
-/* ── UPLOAD BOX ── */
 .upload-box{border:2px dashed var(--border2);border-radius:16px;padding:24px;text-align:center;
   color:var(--text2);font-size:13px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
 .upload-box:hover{border-color:var(--c1);color:var(--c1);background:rgba(108,99,255,0.05)}
@@ -245,20 +213,14 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .upload-filename{font-size:11px;color:var(--green);font-family:var(--mono);margin-top:8px;font-weight:600}
 .upload-progress{background:var(--bg3);border-radius:8px;height:6px;margin-top:10px;overflow:hidden}
 .upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--c1),var(--c2));border-radius:8px;transition:width .3s;width:0%}
-
-/* ── PRICE ROW ── */
 .price-row{display:flex;gap:8px;align-items:center}
 .free-toggle{padding:11px 16px;border-radius:12px;border:1px solid var(--border);background:var(--bg3);
   color:var(--text);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);white-space:nowrap;transition:.15s}
 .free-toggle.on{background:rgba(46,213,115,0.12);border-color:var(--green);color:var(--green)}
-
-/* ── INFO BOX ── */
 .info-box{background:rgba(108,99,255,0.08);border:1px solid rgba(108,99,255,0.2);border-radius:14px;
   padding:12px 14px;font-size:12px;color:rgba(150,150,255,0.9);line-height:1.6;margin-bottom:12px;font-weight:500}
 .warn-box{background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.2);border-radius:14px;
   padding:12px 14px;font-size:12px;color:rgba(255,215,0,0.9);line-height:1.6;margin-bottom:12px;font-weight:500}
-
-/* ── APP DETAIL ── */
 .app-detail-hero{width:100%;height:200px;background:var(--bg2);border-radius:18px;margin-bottom:16px;
   display:flex;align-items:center;justify-content:center;font-size:80px;overflow:hidden;position:relative}
 .app-detail-hero img{width:100%;height:100%;object-fit:cover}
@@ -290,8 +252,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .review-name{font-size:12px;font-weight:700;flex:1}
 .review-stars{font-size:11px;color:var(--yellow)}
 .review-text{font-size:12px;color:var(--text2);line-height:1.5;font-weight:500}
-
-/* ── PAYMENT ── */
 .payment-methods{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
 .pay-method{background:var(--bg2);border:2px solid var(--border);border-radius:14px;padding:14px;
   cursor:pointer;transition:.15s;display:flex;align-items:center;gap:12px}
@@ -310,14 +270,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .card-form{display:none;flex-direction:column;gap:10px;margin-top:10px}
 .card-form.show{display:flex}
 .card-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-
-/* ── EMPTY ── */
 .empty-state{text-align:center;padding:50px 20px;color:var(--text2)}
 .empty-state .big{font-size:56px;margin-bottom:14px}
 .empty-state h3{font-size:17px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-.3px}
 .empty-state p{font-size:13px;font-weight:500}
-
-/* ── DOWNLOAD PROGRESS ── */
 .dl-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;
   display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);
   animation:fadeIn .2s}
@@ -329,8 +285,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .dl-bar-wrap{background:var(--bg3);border-radius:8px;height:8px;overflow:hidden;margin-bottom:12px}
 .dl-bar{height:100%;background:linear-gradient(90deg,var(--c1),var(--c2));border-radius:8px;transition:width .2s;width:0%}
 .dl-pct{font-size:12px;color:var(--c1);font-family:var(--mono);font-weight:600}
-
-/* ── ANIMATIONS ── */
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideUp{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
@@ -378,7 +332,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 <div id="dl-root"></div>
 
 <script>
-// ── CONFIG ──────────────────────────────────────────────────────
 const SUPABASE_URL      = 'https://bhmfdzmtviuatsxwjxap.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJobWZkem10dml1YXRzeHdqeGFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1OTAyMjMsImV4cCI6MjA5NjE2NjIyM30.dDTcKX1ryRP0ZVgTaNDYyPqUg71KjXtgjh9wfPH3YNc';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -390,9 +343,17 @@ let allApps = [];
 let filterCat = 'all';
 let isDev = false;
 
-// ── HELPERS ─────────────────────────────────────────────────────
+// ── HELPERS ──────────────────────────────────────────────────────
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function showErr(msg){ document.getElementById('err').textContent = msg||''; }
+
+// Убираем кириллицу и пробелы из имени файла
+function safeName(filename){
+  const ext = filename.includes('.') ? '.'+filename.split('.').pop() : '';
+  const base = filename.replace(/\.[^.]+$/,'');
+  const safe = base.replace(/[^\x00-\x7F]/g,'').replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_\-]/g,'') || 'file';
+  return safe + ext;
+}
 
 function showModal(html){
   const root = document.getElementById('modal-root');
@@ -438,7 +399,6 @@ async function startApp(){
   const av = document.getElementById('me-av');
   av.innerHTML = me.avatar_url ? `<img src="${me.avatar_url}"/>` : (me.avatar||'👤');
   av.title = '@'+me.username+' · Профиль';
-  // Проверяем: разработчик?
   isDev = me.username === ADMIN_USERNAME;
   if(!isDev){
     const {data} = await sb.from('developer_accounts').select('id,activated').eq('user_id',me.id).maybeSingle();
@@ -481,14 +441,13 @@ function showProfileMenu(){
   </div>`);
 }
 
-// ── ОПЛАТА 100 ₽ ЗА АККАУНТ РАЗРАБОТЧИКА ─────────────
+// ── ОПЛАТА 100 ₽ ─────────────────────────────────────────────────
 let devPayMethod = 'card';
 
 function openDevPayment(){
   showModal(`<div class="modal" onclick="event.stopPropagation()">
     <div class="modal-handle"></div>
     <h2>⚡ Аккаунт разработчика</h2>
-
     <div style="background:linear-gradient(135deg,rgba(108,99,255,0.12),rgba(255,61,154,0.08));border:1px solid var(--border2);border-radius:16px;padding:16px;margin-bottom:16px">
       <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:8px">Что ты получаешь:</div>
       <div style="font-size:13px;line-height:1.8">
@@ -498,7 +457,6 @@ function openDevPayment(){
         ♾️ Навсегда, без подписки
       </div>
     </div>
-
     <div class="sec-head" style="margin-bottom:10px"><span>Способ оплаты</span></div>
     <div class="payment-methods">
       <div class="pay-method selected" id="dpm-card" onclick="selectDevPay('card')">
@@ -518,8 +476,6 @@ function openDevPayment(){
         <div class="pay-method-check" id="dpmc-sbp"></div>
       </div>
     </div>
-
-    <!-- Форма карты -->
     <div id="dev-card-form" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
       <div class="field" style="margin:0"><label>Номер карты</label>
         <input id="dc-num" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric" oninput="fmtCard(this)"/>
@@ -536,8 +492,6 @@ function openDevPayment(){
         <input id="dc-name" placeholder="IVAN IVANOV" oninput="this.value=this.value.toUpperCase()"/>
       </div>
     </div>
-
-    <!-- СБП форма -->
     <div id="dev-sbp-form" style="display:none;margin-bottom:14px">
       <div class="field" style="margin:0"><label>Номер телефона получателя (барада.маркет)</label>
         <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:14px;padding:14px;text-align:center">
@@ -547,18 +501,14 @@ function openDevPayment(){
       </div>
       <div style="margin-top:10px" class="warn-box">После перевода нажми "Я оплатил" — мы проверим и активируем в течение нескольких часов.</div>
     </div>
-
     <div class="pay-total">
       <div class="pay-total-row"><span style="color:var(--text2)">Аккаунт разработчика</span><span>1 шт.</span></div>
       <div class="pay-total-row"><span style="color:var(--text2)">Срок</span><span style="color:var(--green)">Навсегда ♾️</span></div>
       <div class="pay-total-row big"><span>Итого</span><span style="color:var(--c1)">100 ₽</span></div>
     </div>
-
     <div class="m-foot">
       <button class="btn-cancel" onclick="closeModal()">Отмена</button>
-      <button class="btn" style="flex:2" id="dev-pay-btn" onclick="processDevPayment()">
-        Оплатить 100 ₽
-      </button>
+      <button class="btn" style="flex:2" id="dev-pay-btn" onclick="processDevPayment()">Оплатить 100 ₽</button>
     </div>
     <div style="text-align:center;margin-top:10px;font-size:10px;color:var(--text3)">🔒 Безопасная оплата</div>
   </div>`);
@@ -864,7 +814,6 @@ async function startInstall(id){
 }
 
 async function doDownload(a){
-  // Показываем progress overlay
   const dlRoot = document.getElementById('dl-root');
   const icon = a.icon_url ? `<img src="${a.icon_url}" style="width:56px;height:56px;border-radius:16px;object-fit:cover"/>` : (a.icon_emoji||'📦');
   dlRoot.innerHTML = `<div class="dl-overlay">
@@ -877,13 +826,12 @@ async function doDownload(a){
     </div>
   </div>`;
 
-  // Анимируем прогресс
   let pct = 0;
   const bar = document.getElementById('dl-bar');
   const pctEl = document.getElementById('dl-pct');
   const statusEl = document.getElementById('dl-status');
   const statuses = ['Подготовка...','Соединение...','Загрузка...','Установка...','Готово!'];
-  
+
   const interval = setInterval(async ()=>{
     pct += Math.random()*18 + 5;
     if(pct>100) pct=100;
@@ -893,7 +841,6 @@ async function doDownload(a){
     if(statusEl) statusEl.textContent = statuses[Math.min(si,4)];
     if(pct>=100){
       clearInterval(interval);
-      // Записываем установку
       await sb.from('app_installs').upsert({user_id:me.id,app_id:a.id},{onConflict:'user_id,app_id'});
       await sb.rpc('increment_installs',{appid:a.id}).catch(()=>{
         sb.from('market_apps').update({install_count:(a.install_count||0)+1}).eq('id',a.id);
@@ -901,7 +848,6 @@ async function doDownload(a){
       a.install_count = (a.install_count||0)+1;
       setTimeout(()=>{
         dlRoot.innerHTML='';
-        // Если есть файл — открываем
         if(a.file_url){ window.open(a.file_url,'_blank'); }
         else { alert('✅ '+a.name+' установлено!'); }
       },600);
@@ -922,7 +868,6 @@ function openPayment(a){
         <div style="font-size:12px;color:var(--text2);font-weight:600">${esc(a.type==='game'?'🎮 Игра':'📱 Приложение')}</div>
       </div>
     </div>
-    
     <div class="sec-head" style="margin-bottom:10px"><span>Способ оплаты</span></div>
     <div class="payment-methods">
       <div class="pay-method selected" id="pm-card" onclick="selectPayMethod('card')">
@@ -950,13 +895,10 @@ function openPayment(a){
         <div class="pay-method-check" id="pmc-barada"></div>
       </div>
     </div>
-
-    <!-- Форма карты -->
     <div class="card-form show" id="card-form">
       <div class="field" style="margin:0">
         <label>Номер карты</label>
-        <input id="c-number" placeholder="0000 0000 0000 0000" maxlength="19"
-          oninput="fmtCard(this)" inputmode="numeric"/>
+        <input id="c-number" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)" inputmode="numeric"/>
       </div>
       <div class="card-row">
         <div class="field" style="margin:0"><label>Срок</label>
@@ -970,32 +912,22 @@ function openPayment(a){
         <input id="c-name" placeholder="IVAN IVANOV" oninput="this.value=this.value.toUpperCase()"/>
       </div>
     </div>
-
-    <!-- СБП инфо -->
     <div id="sbp-info" style="display:none">
       <div class="info-box">⚡ Откроется QR-код для оплаты через ваш банк. Быстро и безопасно.</div>
     </div>
-
-    <!-- Баланс инфо -->
     <div id="barada-info" style="display:none">
       <div class="warn-box">🪙 Барада Баланс: функция в разработке. Скоро!</div>
     </div>
-
     <div class="pay-total">
       <div class="pay-total-row"><span style="color:var(--text2)">Приложение</span><span>${esc(a.name)}</span></div>
       <div class="pay-total-row"><span style="color:var(--text2)">Комиссия</span><span style="color:var(--green)">0 ₽</span></div>
       <div class="pay-total-row big"><span>Итого</span><span style="color:var(--c1)">${a.price} ₽</span></div>
     </div>
-
     <div class="m-foot">
       <button class="btn-cancel" onclick="closeModal()">Отмена</button>
-      <button class="btn" style="flex:2" onclick="processPayment('${a.id}',${a.price})">
-        Оплатить ${a.price} ₽
-      </button>
+      <button class="btn" style="flex:2" onclick="processPayment('${a.id}',${a.price})">Оплатить ${a.price} ₽</button>
     </div>
-    <div style="text-align:center;margin-top:10px;font-size:10px;color:var(--text3)">
-      🔒 Платёж защищён шифрованием SSL
-    </div>
+    <div style="text-align:center;margin-top:10px;font-size:10px;color:var(--text3)">🔒 Платёж защищён шифрованием SSL</div>
   </div>`);
 }
 
@@ -1024,7 +956,6 @@ function fmtExp(el){
 async function processPayment(appId, price){
   if(selectedPayMethod==='barada'){alert('🪙 Барада Баланс в разработке!');return;}
   if(selectedPayMethod==='sbp'){
-    // Имитируем СБП
     closeModal();
     showModal(`<div class="modal" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -1043,7 +974,6 @@ async function processPayment(appId, price){
     </div>`);
     return;
   }
-  // Карта — проверяем поля
   const num = document.getElementById('c-number')?.value.replace(/\s/g,'');
   const exp = document.getElementById('c-exp')?.value;
   const cvv = document.getElementById('c-cvv')?.value;
@@ -1052,7 +982,6 @@ async function processPayment(appId, price){
   if(!exp||exp.length<5){alert('Введи срок карты');return;}
   if(!cvv||cvv.length<3){alert('Введи CVV');return;}
   if(!name){alert('Введи имя');return;}
-  // Симулируем обработку
   const btn = document.querySelector('.modal .btn:last-child');
   if(btn){btn.textContent='Обработка...';btn.disabled=true;}
   await new Promise(r=>setTimeout(r,2000));
@@ -1062,7 +991,6 @@ async function processPayment(appId, price){
 async function confirmPayment(appId){
   closeModal();
   const a = allApps.find(x=>x.id===appId);
-  // Записываем покупку
   await sb.from('app_purchases').upsert({user_id:me.id,app_id:appId,amount:a?.price||0},{onConflict:'user_id,app_id'});
   await sb.from('app_installs').upsert({user_id:me.id,app_id:appId},{onConflict:'user_id,app_id'});
   if(a) a.install_count = (a.install_count||0)+1;
@@ -1146,7 +1074,6 @@ function openPublishApp(editId=null){
       <input id="pub-ver" placeholder="1.0.0" value="${esc(existing?.version||'1.0.0')}"/>
     </div>
 
-    <!-- ИКОНКА -->
     <div class="field"><label>Иконка</label>
       <div class="upload-box" id="icon-upload-box">
         <input type="file" accept="image/*" id="icon-file-input" onchange="handleIconUpload(this)"/>
@@ -1161,7 +1088,6 @@ function openPublishApp(editId=null){
       </div>
     </div>
 
-    <!-- ФАЙЛ ИГРЫ -->
     <div class="field"><label>📁 Файл игры / APK / ZIP</label>
       <div class="upload-box" id="file-upload-box">
         <input type="file" id="game-file-input" onchange="handleGameFileUpload(this)"/>
@@ -1176,7 +1102,6 @@ function openPublishApp(editId=null){
       <div style="margin-top:8px"><input id="pub-url" placeholder="или вставь ссылку на файл..." value="${esc(existing?.file_url||'')}" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:10px 14px;color:var(--text);font-size:13px;outline:none;font-family:var(--font)"/></div>
     </div>
 
-    <!-- ЦЕНА -->
     <div class="field"><label>Цена</label>
       <div class="price-row">
         <button type="button" class="free-toggle${(!existing?.price||existing?.price===0)?' on':''}" id="free-toggle" onclick="toggleFree()">✅ Бесплатно</button>
@@ -1211,6 +1136,7 @@ function toggleFree(){
   if(inp){ inp.disabled = window._isFree; if(window._isFree) inp.value=''; }
 }
 
+// ── ИСПРАВЛЕНО: убираем кириллицу из пути иконки ─────────────────
 async function handleIconUpload(input){
   const file = input.files[0];
   if(!file) return;
@@ -1218,7 +1144,8 @@ async function handleIconUpload(input){
   const box = document.getElementById('icon-upload-box');
   box.innerHTML = `<div class="upload-icon spin">⏳</div><div class="upload-label">Загружаем...</div>`;
   try{
-    const path = `icons/${me.id}/${Date.now()}_${file.name}`;
+    const safe = safeName(file.name);
+    const path = `icons/${me.id}/${Date.now()}_${safe}`;
     const {data,error} = await sb.storage.from('market-files').upload(path,file,{upsert:true});
     if(error) throw error;
     const {data:{publicUrl}} = sb.storage.from('market-files').getPublicUrl(path);
@@ -1229,6 +1156,7 @@ async function handleIconUpload(input){
   }
 }
 
+// ── ИСПРАВЛЕНО: убираем кириллицу из пути файла игры ─────────────
 async function handleGameFileUpload(input){
   const file = input.files[0];
   if(!file) return;
@@ -1237,13 +1165,13 @@ async function handleGameFileUpload(input){
   const pbar = document.getElementById('file-progress-bar');
   box.innerHTML = `<div class="upload-icon pulse">📦</div><div class="upload-label">Загружаем ${esc(file.name)}...</div>`;
   pwrap.style.display='block';
-  
-  // Симулируем прогресс пока грузим
+
   let fakePct = 0;
   const pi = setInterval(()=>{ fakePct=Math.min(fakePct+5,90); if(pbar) pbar.style.width=fakePct+'%'; },200);
-  
+
   try{
-    const path = `games/${me.id}/${Date.now()}_${file.name}`;
+    const safe = safeName(file.name);
+    const path = `games/${me.id}/${Date.now()}_${safe}`;
     const {data,error} = await sb.storage.from('market-files').upload(path,file,{upsert:true});
     clearInterval(pi);
     if(error) throw error;
@@ -1252,7 +1180,6 @@ async function handleGameFileUpload(input){
     window._fileSize = file.size;
     if(pbar) pbar.style.width='100%';
     box.innerHTML = `<div class="upload-icon">✅</div><div class="upload-filename">${esc(file.name)}</div><div style="font-size:10px;color:var(--text2);margin-top:4px">${fmtSize(file.size)}</div>`;
-    // Вставляем url в поле
     const urlField = document.getElementById('pub-url');
     if(urlField) urlField.value = publicUrl;
   }catch(e){
@@ -1275,7 +1202,7 @@ async function submitApp(editId){
   const fileSize = window._fileSize||null;
 
   if(!name){alert('Введи название');return;}
-  
+
   const btn = document.getElementById('pub-submit-btn');
   if(btn){btn.disabled=true;btn.textContent='Публикуем...';}
 
@@ -1284,12 +1211,11 @@ async function submitApp(editId){
   let error;
   if(editId){({error}=await sb.from('market_apps').update(payload).eq('id',editId));}
   else{({error}=await sb.from('market_apps').insert(payload));}
-  
+
   if(error){alert('Ошибка: '+error.message);if(btn){btn.disabled=false;btn.textContent='Опубликовать 🚀';}return;}
   await loadApps();
   closeModal();
   renderTab(currentTab);
-  // Показываем успех
   setTimeout(()=>alert('🚀 Опубликовано!'),100);
 }
 
@@ -1318,12 +1244,10 @@ async function deleteApp(id){
   document.addEventListener('DOMContentLoaded',fix);
 })();
 
-// ── SERVICE WORKER ────────────────────────────────────────────────
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
 
-// ── INIT ─────────────────────────────────────────────────────────
 (async()=>{
   const {data:{session}}=await sb.auth.getSession();
   if(session){
